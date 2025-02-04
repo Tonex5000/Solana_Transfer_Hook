@@ -27,7 +27,6 @@ import * as fs from 'fs';
 //chai.use(chaiAsPromised);
 
 describe("whitelist-transfer-hook", () => {
-  // Configuration remains the same...
   const walletKeyPath = path.join(__dirname, '../funded_wallet.json');
   const walletKeypair = anchor.web3.Keypair.fromSecretKey(
     Buffer.from(JSON.parse(fs.readFileSync(walletKeyPath, 'utf-8')))
@@ -99,8 +98,7 @@ describe("whitelist-transfer-hook", () => {
       [payer.payer, mint],
       { skipPreflight: true }
     );
-
-    // Create token accounts
+    
     const payerATA = await getOrCreateAssociatedTokenAccount(
       provider.connection,
       payer.payer,
@@ -126,9 +124,7 @@ describe("whitelist-transfer-hook", () => {
     recipientTokenAccount = recipientATA.address;
   });
 
-  // Rest of the tests remain the same...
   it("Adds addresses to whitelist", async () => {
-    // Add whitelisted user to the whitelist
     await program.methods
       .addToWhitelist(whitelistedUser.publicKey)
       .accounts({
@@ -137,14 +133,12 @@ describe("whitelist-transfer-hook", () => {
       })
       .rpc();
 
-    // Fetch and verify the whitelist state
     const whitelistState = await program.account.whitelistState.fetch(whitelistStatePDA);
     expect(whitelistState.allowedAddresses).to.deep.include.members([whitelistedUser.publicKey]);
   });
 
 
   it("Removes address from whitelist", async () => {
-    // Remove whitelisted user from the whitelist
     await program.methods
       .removeFromWhitelist(whitelistedUser.publicKey)
       .accounts({
@@ -153,7 +147,6 @@ describe("whitelist-transfer-hook", () => {
       })
       .rpc();
 
-    // Fetch and verify the whitelist state
     const whitelistState = await program.account.whitelistState.fetch(whitelistStatePDA);
     expect(whitelistState.allowedAddresses).to.not.deep.include.members([whitelistedUser.publicKey]);
   });

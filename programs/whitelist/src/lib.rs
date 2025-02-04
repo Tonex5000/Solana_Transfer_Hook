@@ -7,7 +7,7 @@ use solana_program::program_error::ProgramError;
 use spl_tlv_account_resolution::{account::ExtraAccountMeta, state::ExtraAccountMetaList, seeds::Seed};
 use spl_transfer_hook_interface::instruction::{ExecuteInstruction, TransferHookInstruction};
 
-declare_id!("F8JTJRsEngZsdw4HkZDHmDWjJtVXUWCPeSgKFondXVbQ"); // Replace with your program ID
+declare_id!("F8JTJRsEngZsdw4HkZDHmDWjJtVXUWCPeSgKFondXVbQ");
 
 #[program]
 pub mod whitelist_transfer_hook {
@@ -21,7 +21,7 @@ pub mod whitelist_transfer_hook {
     }
 
     pub fn initialize_extra_account_meta_list(ctx: Context<InitializeExtraAccountMetaList>) -> Result<()> {
-        // Create the whitelist state account reference
+        
         let account_metas = vec![
             // index 5 - whitelist state account
             ExtraAccountMeta::new_with_seeds(
@@ -30,8 +30,8 @@ pub mod whitelist_transfer_hook {
                         bytes: "whitelist-state".as_bytes().to_vec(),
                     },
                 ],
-                false, // is_signer
-                true  // is_writable
+                false,
+                true 
             )?,
         ];
 

@@ -124,6 +124,19 @@ describe("whitelist-transfer-hook", () => {
     recipientTokenAccount = recipientATA.address;
   });
 
+    it("Initializes the whitelist state and extra account meta list", async () => {
+    await program.methods
+      .initializeExtraAccountMetaList()
+      .accounts({
+        payer: payer.publicKey,
+        extraAccountMetaList: extraAccountMetaList,
+        mint: mint.publicKey,
+        systemProgram: SystemProgram.programId,
+        whitelistState: whitelistStatePDA,
+      })
+      .rpc();
+  });
+
   it("Adds addresses to whitelist", async () => {
     await program.methods
       .addToWhitelist(whitelistedUser.publicKey)
